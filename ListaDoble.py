@@ -3,6 +3,7 @@ from dato import Dato
 
 class lista_doble:
     def __init__(self) -> None:
+        self.longitud = 0
         self.primero = None
         self.ultimo = None
 
@@ -10,19 +11,32 @@ class lista_doble:
         if self.primero is None:
             self.primero = Dato(dato)
             self.ultimo = self.primero
+            self.longitud += 1
         else:
             actual = Dato(dato)
             self.ultimo.siguiente = actual
             self.ultimo = actual
+            self.longitud += 1
 
     def recorrer(self):
         if self.primero is None:
             return
         actual = self.primero
-        print(">>", actual.dato)
+        print(actual.dato)
         while actual.siguiente:
             actual = actual.siguiente
-            print(">>", actual.dato)
+            print(actual.dato)
+
+    def recorrerDrones(self):
+        if self.primero is None:
+            return
+        actual = self.primero
+        contador = 0
+        print(">>   ", actual.dato)
+        while actual.siguiente and contador < 101:
+            actual = actual.siguiente
+            print(">>   ", actual.dato)
+            contador += 1
 
     def eliminar(self, usuario):
         actual = self.primero
@@ -46,13 +60,4 @@ class lista_doble:
                 return True
             else:
                 actual = actual.siguiente
-        return False
-        graph = Graph()
-        tmp = self.DatoInicio
-        while tmp:
-            for a in range(self.size):
-                if a == valor:
-                    graph.addEncabezado(tmp)
-                    graph.generar2(a)
-                    return
-                tmp = tmp.getSiguiente()
+        return
