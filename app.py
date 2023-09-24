@@ -8,9 +8,12 @@ try:
     obj.getTodo()
 
     print("Lista de Drones")
-    obj.listaDrones.imprimir()
+    obj.listaDrones.recorrer()
     print("Lista de Sistemas de Drones")
-    #aun no funciona
+    temp = obj.listaSistemas.primero
+    while temp:
+        temp.getDato().imprimir()
+        temp = temp.getSiguiente()
 
 except Exception as e:
     print(e)

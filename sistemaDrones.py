@@ -6,4 +6,6 @@ class SistemaDrones:
         self.cantidadDrones = Cdrones
 
     def imprimir(self):
-        print("Altura maxima: ", self.alturaMax, "cantidad de drones: ", self.cantidadDrones)
+        print("Nombre: ", self.nombre)
+        print(">>   Altura maxima: ", self.alturaMax, 
+              "\n>>   Cantidad de drones: ", self.cantidadDrones)
