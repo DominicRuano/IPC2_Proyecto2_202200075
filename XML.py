@@ -15,10 +15,10 @@ class leerXML:
     def getDrones(self) -> None:
         for a in self.root.findall("listaDrones"):
             for b in a.findall("dron"):
-                if self.listaDrones.longitud <= 100:
+                if self.listaDrones.longitud <= 200:
                     self.listaDrones.insertar(b.text)
                 else:
-                    print(">> La cantidad de drones es mayor a 100")
+                    print(">> La cantidad de drones es mayor a 200, no se agregaran mas")
                     return
 
     def getSistemas(self):
@@ -46,7 +46,11 @@ class leerXML:
                     else:
                         print(f">> El dron {nombreDron} no existe")
                         continue
-                self.listaSistemas.insertar(SistemaDrones(nombre, alturaMax, cantidadDrones, lista))
+                if int(alturaMax) > 100:
+                    print("La latura maxima es mayor a 100 por lo tanto no se tomaran en cuenta las alturas mayores y se tomara como maxima 100.")
+                    self.listaSistemas.insertar(SistemaDrones(nombre, "200", cantidadDrones, lista))
+                else:
+                    self.listaSistemas.insertar(SistemaDrones(nombre, alturaMax, cantidadDrones, lista))
 
     def getMensajes(self):
         for a in self.root.findall("listaMensajes"):
