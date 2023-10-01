@@ -21,6 +21,19 @@ class leerXML:
                     print(">> La cantidad de drones es mayor a 200, no se agregaran mas")
                     return
 
+    def ordenar(self):
+        for a in range(self.listaDrones.longitud):
+            temp = self.listaDrones.primero
+            while temp:
+                if temp.anterior:
+                    if temp.anterior.dato.lower() > temp.dato.lower():
+                        temp.anterior.dato , temp.dato = temp.dato , temp.anterior.dato
+                if temp.siguiente:
+                    if temp.dato.lower() > temp.siguiente.dato.lower():
+                        temp.siguiente.dato , temp.dato = temp.dato , temp.siguiente.dato
+                temp = temp.siguiente
+
+
     def getSistemas(self):
         for a in self.root.findall("listaSistemasDrones"):
             for b in a.findall("sistemaDrones"):

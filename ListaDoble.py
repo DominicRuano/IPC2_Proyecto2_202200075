@@ -14,6 +14,7 @@ class lista_doble:
             self.longitud += 1
         else:
             actual = Dato(dato)
+            actual.anterior = self.ultimo
             self.ultimo.siguiente = actual
             self.ultimo = actual
             self.longitud += 1
