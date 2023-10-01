@@ -108,8 +108,9 @@ def adddron():
 def sistemas():
     global obj
     if obj:
-        filepath = "Imagen2.jpg"
+        filepath = "Sistemas.png"
         entry.delete(1.0, tk.END)
+        obj.graficarSistermas()
         os.system(f"start {filepath}")
     else:
         messagebox.showerror("Error", "Aun no se ha cargado un archivo.")

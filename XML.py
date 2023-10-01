@@ -4,6 +4,7 @@ from sistemaDrones import SistemaDrones
 from contenido import Contenido
 from instruccion import Instruccion
 from mensaje import Mensaje
+from graph import Graph
 
 class leerXML:
     def __init__(self, path) -> None:
@@ -33,7 +34,6 @@ class leerXML:
                         temp.siguiente.dato , temp.dato = temp.dato , temp.siguiente.dato
                 temp = temp.siguiente
 
-
     def getSistemas(self):
         for a in self.root.findall("listaSistemasDrones"):
             for b in a.findall("sistemaDrones"):
@@ -43,10 +43,10 @@ class leerXML:
                 cantidadDrones = b.find("cantidadDrones").text
                 for c in b.findall("contenido"):
                     nombreDron = c.find("dron").text
-                    letrasSTR = ""
+                    letrasSTR = lista_doble()
                     for d in c.find("alturas").findall("altura"):
-                        if len(letrasSTR) < int(alturaMax):
-                            letrasSTR += d.text
+                        if letrasSTR.longitud < int(alturaMax):
+                            letrasSTR.insertar(d.text)
                     temp = self.listaDrones.primero
                     valor = False
                     while temp:
@@ -61,7 +61,7 @@ class leerXML:
                         continue
                 if int(alturaMax) > 100:
                     print("La latura maxima es mayor a 100 por lo tanto no se tomaran en cuenta las alturas mayores y se tomara como maxima 100.")
-                    self.listaSistemas.insertar(SistemaDrones(nombre, "200", cantidadDrones, lista))
+                    self.listaSistemas.insertar(SistemaDrones(nombre, "100", cantidadDrones, lista))
                 else:
                     self.listaSistemas.insertar(SistemaDrones(nombre, alturaMax, cantidadDrones, lista))
 
@@ -97,3 +97,34 @@ class leerXML:
                 else:
                     print(f"el sistema de drones del mensaje, {nombre} no existe, por eso no se incluira.")
 
+    def graficarSistermas(self):
+        contador = 1
+        graph = Graph()
+        sistemas = self.listaSistemas.primero
+        graph.addEncabezado("Sistemas", contador)
+        encabezado = contador
+        contador += 1
+        while sistemas:
+            graph.add1Nodo(sistemas.dato.nombre, encabezado, contador) # nombre del sistema
+            graph.add1Nodo(f"Amax:{sistemas.dato.alturaMax}", contador, contador + 1) # Amax
+            graph.add1Nodo(f"Drones: {sistemas.dato.cantidadDrones}", contador, contador + 2)
+            dato = sistemas.dato.datos.primero
+            encabezado2 = contador
+            contador = contador + 3
+            graph.add1Nodo("Altura/Dron", encabezado2, contador)
+            for a in range(int(sistemas.dato.alturaMax)):
+                graph.add1Nodo(f"Altura: {a + 1}",contador, contador + 1)
+                contador += 1
+            contador += 1
+            while dato:
+                graph.add1Nodo(f"{dato.dato.NombreDron}", encabezado2, contador)
+                linea = dato.dato.letrasSTR.primero
+                while linea:
+                    graph.add1Nodo(linea.dato, contador, contador + 1)
+                    contador += 1
+                    linea = linea.siguiente
+                dato =  dato.siguiente
+                contador += 1
+            contador += 100000
+            sistemas = sistemas.siguiente
+        graph.graficar()
