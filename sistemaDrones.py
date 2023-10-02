@@ -1,4 +1,3 @@
-from contenido import Contenido
 
 class SistemaDrones:
     def __init__(self,nombre,  Amax, Cdrones, listaDatos) -> None:

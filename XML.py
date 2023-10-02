@@ -109,7 +109,6 @@ class leerXML:
                         temp.siguiente.dato , temp.dato = temp.dato , temp.siguiente.dato
                 temp = temp.siguiente
 
-
     def graficarSistermas(self):
         contador = 1
         graph = Graph()

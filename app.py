@@ -27,7 +27,6 @@ def Inicializar():
         button.config(state="disabled")
         messagebox.showinfo("Sistema Inicializado", "Se inicializo en sistema.")
 
-
 def cargarXML():
     button6.place_forget()
     try:
@@ -123,6 +122,8 @@ def mensajes():
         messagebox.showerror("Error", "Aun no se ha cargado un archivo.")
 
 def ayuda():
+    filepath = "Documentacion_Proyecto2_IPC2_202200075.pdf"
+    os.system(f"start {filepath}")
     mensaje = """
 +--------------------------------------------------------------------------+
 |                                                                          |
