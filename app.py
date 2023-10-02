@@ -12,28 +12,6 @@ HEIGHT = 600 # Alto
 
 obj = None
 
-
-try:
-    print("Lista de Sistemas de Drones")
-    temp = obj.listaSistemas.primero
-    while temp:
-        temp.getDato().imprimir()
-        temp = temp.getSiguiente()
-
-    print("\nLos mensajes son:")
-    temp = obj.mensajes.primero
-    while temp:
-        print(f">>   Dron: {temp.getDato().nombre}\n>>   Sistema: {temp.getDato().sistema}\n>>   Las instrucciones son:")
-        temp2 = temp.getDato().instrucciones.primero
-        while temp2:
-            print(f">>      {temp2.getDato().dron} | Dato: {temp2.getDato().dato}")
-            temp2 = temp2.siguiente
-        temp = temp.siguiente
-
-except Exception as e:
-    print(e)
-
-
 def Inicializar():
     global obj
     resultado = messagebox.askquestion("Inicializar el sistema", 
@@ -41,7 +19,9 @@ def Inicializar():
 
     if resultado == "yes":
         obj = None
+        entry.config(state="normal")
         entry.delete(1.0, tk.END)
+        entry.config(state="disabled")
         button6.place_forget()
         button1.config(state="normal")
         button.config(state="disabled")
@@ -75,14 +55,16 @@ def drones():
     global obj
     if obj:
         obj.ordenar()
+        entry.config(state="normal")
         entry.delete(1.0, tk.END)
-        texto = "> La lista de todos los drones es: \n"
+        texto = "> La lista de todos los drones es: \n\n"
         var = obj.listaDrones.primero
         while var:
             texto += f">>   {var.dato}\n"
             var = var.siguiente
-        texto += f"> El total de drones es: {obj.listaDrones.longitud}"
+        texto += f"\n> El total de drones es: {obj.listaDrones.longitud}"
         entry.insert(tk.END, texto)
+        entry.config(state="disabled")
         button6.place(x=790, y=7, width=100, height=23)
     else:
         messagebox.showerror("Error", "Aun no se ha cargado un archivo.")
@@ -109,11 +91,55 @@ def sistemas():
     global obj
     if obj:
         filepath = "Sistemas.png"
+        entry.config(state="normal")
         entry.delete(1.0, tk.END)
+        entry.config(state="disabled")
         obj.graficarSistermas()
         os.system(f"start {filepath}")
+        button6.place_forget()
     else:
         messagebox.showerror("Error", "Aun no se ha cargado un archivo.")
+
+def mensajes():
+    global obj
+    if obj:
+        obj.ordenarMensajes()
+        button6.place_forget()
+        mensaje = "> Los mensajes son:\n"
+        temp = obj.mensajes.primero
+        while temp:
+            mensaje += f"\n>>   Mensaje: {temp.getDato().nombre}\n>>        Sistema de drones: {temp.getDato().sistema}\n>>        Instrucciones:\n"
+            temp2 = temp.getDato().instrucciones.primero
+            while temp2:
+                mensaje += f">>           {temp2.getDato().dron} | Dato: {temp2.getDato().dato}\n"
+                temp2 = temp2.siguiente
+            temp = temp.siguiente
+        mensaje += f"\n> Total de mensajes: {obj.mensajes.longitud}"
+        entry.config(state="normal")
+        entry.delete(1.0, tk.END)
+        entry.insert(tk.END, mensaje)
+        entry.config(state="disabled")
+    else:
+        messagebox.showerror("Error", "Aun no se ha cargado un archivo.")
+
+def ayuda():
+    mensaje = """
++--------------------------------------------------------------------------+
+|                                                                          |
+|   > Datos del estudiante:                                                |
+|                                                                          |
+|   >>  Dominic Juan Pablo Ruano Perez                                     |
+|   >>  202200075                                                          |
+|   >>  Introduccion a la Programacion y Computacion 2 seccion \"A\"         |
+|   >>  Ingenieria en Ciencias y Sistemas                                  |
+|   >>  4to semestre                                                       |
+|                                                                          |
++--------------------------------------------------------------------------+
+"""
+    entry.config(state="normal")
+    entry.delete(1.0, tk.END)
+    entry.insert(tk.END, mensaje)
+    entry.config(state="disabled")
 
 # Creacion de la ventana
 root = tk.Tk()
@@ -142,8 +168,9 @@ button1 = tk.Button(root, text="Cargar XML", bg="#333766", fg="white", borderwid
 button2 = tk.Button(root, text="Generar XML", bg= "#333766", fg="white", borderwidth=0.5, command= lambda: generarXML())
 button3 = tk.Button(root, text="Drones", bg="#333766", fg="white", borderwidth=0.5, command= lambda: drones())
 button4 = tk.Button(root, text="Sistemas", bg="#333766", fg="white", borderwidth=0.5, command= lambda: sistemas())
-button5 = tk.Button(root, text="Mensajes", bg="#333766", fg="white", borderwidth=0.5, command=print("se debe inicializar"))
+button5 = tk.Button(root, text="Mensajes", bg="#333766", fg="white", borderwidth=0.5, command= lambda: mensajes())
 button6 = tk.Button(root, text="Agregar Dron", bg="#333766", fg="white", borderwidth=0.5, command= lambda: adddron())
+button7 = tk.Button(root, text="Ayuda", bg="#333766", fg="white", borderwidth=0.5, command= lambda: ayuda())
 
 
 # Posicion de los botones
@@ -153,10 +180,11 @@ button2.place(x=270, y=7, width=100, height=23)
 button3.place(x=400, y=7, width=100, height=23)
 button4.place(x=530, y=7, width=100, height=23)
 button5.place(x=660, y=7, width=100, height=23)
+button7.place(x=400, y=570, width=100, height=23)
 
 # Creacion del tetxbox
-entry = tk.Text(root, bg="#343541", fg="white")
-entry.place(x=15, y=60, width=869, height=524)
+entry = tk.Text(root, bg="#343541", fg="white", state="disabled")
+entry.place(x=15, y=60, width=869, height=504)
 
 button.config(state="disabled")
 

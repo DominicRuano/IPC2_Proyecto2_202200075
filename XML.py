@@ -97,6 +97,19 @@ class leerXML:
                 else:
                     print(f"el sistema de drones del mensaje, {nombre} no existe, por eso no se incluira.")
 
+    def ordenarMensajes(self):
+        for a in range(self.mensajes.longitud):
+            temp = self.mensajes.primero
+            while temp:
+                if temp.anterior:
+                    if temp.anterior.dato.nombre.lower() > temp.dato.nombre.lower():
+                        temp.anterior.dato , temp.dato = temp.dato , temp.anterior.dato
+                if temp.siguiente:
+                    if temp.dato.nombre.lower() > temp.siguiente.dato.nombre.lower():
+                        temp.siguiente.dato , temp.dato = temp.dato , temp.siguiente.dato
+                temp = temp.siguiente
+
+
     def graficarSistermas(self):
         contador = 1
         graph = Graph()
